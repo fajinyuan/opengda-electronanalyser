@@ -113,38 +113,38 @@ public class RegionScannable extends ScannableBase implements Scannable {
 	private void setNewRegion(Region region) throws Exception{
 		try {
 			busy=true;
-			getAnalyser().setCameraMinX(region.getFirstXChannel());
-			getAnalyser().setCameraMinY(region.getFirstYChannel());
-			getAnalyser().setCameraSizeX(region.getLastXChannel() - region.getFirstXChannel());
-			getAnalyser().setCameraSizeY(region.getLastYChannel() - region.getFirstYChannel());
-			getAnalyser().setSlices(region.getSlices());
-			getAnalyser().setDetectorMode(region.getDetectorMode().getLiteral());
+			getAnalyser().setCameraMinX(region.getFirstXChannel(),1.0);
+			getAnalyser().setCameraMinY(region.getFirstYChannel(),1.0);
+			getAnalyser().setCameraSizeX(region.getLastXChannel() - region.getFirstXChannel(),1.0);
+			getAnalyser().setCameraSizeY(region.getLastYChannel() - region.getFirstYChannel(),1.0);
+			getAnalyser().setSlices(region.getSlices(), 1.0);
+			getAnalyser().setDetectorMode(region.getDetectorMode().getLiteral(),1.0);
 			
-			getAnalyser().setLensMode(region.getLensMode());
-			getAnalyser().setEnergysMode(region.getEnergyMode().getLiteral());
-			getAnalyser().setPassEnergy(region.getPassEnergy());
+			getAnalyser().setLensMode(region.getLensMode(), 1.0);
+			getAnalyser().setEnergysMode(region.getEnergyMode().getLiteral(),1.0);
+			getAnalyser().setPassEnergy(region.getPassEnergy(), 1.0);
 			if (region.getAcquisitionMode() == ACQUISITION_MODE.SWEPT) {
-				getAnalyser().setStartEnergy(region.getLowEnergy());
-				getAnalyser().setEndEnergy(region.getHighEnergy());
+				getAnalyser().setStartEnergy(region.getLowEnergy(), 1.0);
+				getAnalyser().setEndEnergy(region.getHighEnergy(), 1.0);
 			} else {
-				getAnalyser().setCentreEnergy(region.getFixEnergy());
+				getAnalyser().setCentreEnergy(region.getFixEnergy(), 1.0);
 			}
-			getAnalyser().setStepTime(region.getStepTime());
-			getAnalyser().setEnergyStep(region.getEnergyStep() / 1000.0);
+			getAnalyser().setStepTime(region.getStepTime(),1.0);
+			getAnalyser().setEnergyStep(region.getEnergyStep() / 1000.0, 1.0);
 			if (!region.getRunMode().isConfirmAfterEachIteration()) {
 				if (!region.getRunMode().isRepeatUntilStopped()) {
-					getAnalyser().setNumberInterations(region.getRunMode().getNumIterations());
-					getAnalyser().setImageMode(ImageMode.SINGLE); 
+					getAnalyser().setNumberInterations(region.getRunMode().getNumIterations(), 1.0);
+					getAnalyser().setImageMode(ImageMode.SINGLE, 1.0); 
 				} else {
-					getAnalyser().setNumberInterations(1);
-					getAnalyser().setImageMode(ImageMode.CONTINUOUS);
+					getAnalyser().setNumberInterations(1, 1.0);
+					getAnalyser().setImageMode(ImageMode.CONTINUOUS, 1.0);
 				}
 			} else {
-				getAnalyser().setNumberInterations(1);
-				getAnalyser().setImageMode(ImageMode.SINGLE);
+				getAnalyser().setNumberInterations(1, 1.0);
+				getAnalyser().setImageMode(ImageMode.SINGLE, 1.0);
 				throw new NotSupportedException("Confirm after each iteraction is not yet supported");
 			}
-			getAnalyser().setAcquisitionMode(region.getAcquisitionMode().getLiteral());
+			getAnalyser().setAcquisitionMode(region.getAcquisitionMode().getLiteral(), 1.0);
 		} catch (Exception e) {
 			throw e;
 		} finally {
